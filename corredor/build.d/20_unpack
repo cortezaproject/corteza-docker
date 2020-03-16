@@ -1,0 +1,30 @@
+#!/bin/sh
+
+set -eux
+
+TAR_FLAGS=-xzmok
+
+HOME_TMP="${C_HOME_DIR}/tmp"
+
+LOCAL_PATH="/${C_PKG_NAME}"
+REMOTE_URL="${C_REMOTE_BASE_URL}/${C_PKG_NAME}"
+
+mkdir -p "${HOME_TMP}"
+
+# See if COPY in Dockerfile picked up any local dist files
+# and use them instead of downloading the whole package
+#
+# Used mainly for debugging
+if [ -f "${LOCAL_PATH}" ]; then
+  ls -lsa ${LOCAL_PATH}
+  tar ${TAR_FLAGS} -f "${LOCAL_PATH}" -C "${HOME_TMP}";
+else
+  curl -s --head --fail "${REMOTE_URL}"
+  curl -s "${REMOTE_URL}" | tar ${TAR_FLAGS} -C "${HOME_TMP}"
+fi
+
+mv "${HOME_TMP}/${C_FLAVOUR}-server-corredor/"* "${C_HOME_DIR}/"
+rm -rf "${HOME_TMP}"
+
+chmod -R u+Xr-w,g+Xr-w "${C_HOME_DIR}"
+chown -R "${C_USER}":"${C_GROUP}" "${C_HOME_DIR}"

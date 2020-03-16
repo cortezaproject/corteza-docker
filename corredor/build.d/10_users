@@ -1,0 +1,11 @@
+#!/bin/sh
+
+set -eu
+#set -eux # debugging
+
+
+addgroup -g "${C_GID}" "${C_GROUP}"
+adduser -D -u "${C_UID}" -G "${C_GROUP}" -h "${C_HOME_DIR}" "${C_USER}"
+
+chmod -R u+Xr-w,g+Xr-w "${C_HOME_DIR}"
+chown -R "${C_USER}":"${C_GROUP}" "${C_HOME_DIR}"

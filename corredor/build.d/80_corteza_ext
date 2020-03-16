@@ -1,0 +1,18 @@
+#!/bin/sh
+
+set -eux
+
+copyExtScripts () {
+  cp -r \
+    "${C_HOME_DIR:?}/${C_EXT_DIR}-${C_EXT_BRANCH}/${1}" \
+    "${C_EXT_DST}/"
+}
+
+curl -s --head --fail "${C_EXT_URL:?}"
+curl -s --location "${C_EXT_URL:?}" | tar -xz -C "${C_HOME_DIR}"
+
+copyExtScripts crm
+copyExtScripts service-cloud
+
+rm -rf "${C_HOME_DIR:?}/${C_EXT_DIR}"
+

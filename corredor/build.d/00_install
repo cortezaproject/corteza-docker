@@ -1,0 +1,16 @@
+#!/bin/sh
+
+set -eu
+#set -eux # debugging
+
+apk add --no-cache \
+    git \
+    build-base \
+    g++ \
+    cairo-dev \
+    jpeg-dev \
+    pango-dev \
+    giflib-dev \
+    curl \
+
+rm -rf /tmp/*

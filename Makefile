@@ -9,7 +9,7 @@ GIT    = git
 
 # Flags
 DOCKER_BUILD_FLAGS ?= --no-cache --rm # example: make build.server DOCKER_BUILD_FLAGS=--rm
-DOCKER_BUILD_ARGS  ?= --build-arg C_VERSION=$(VERSION)
+DOCKER_BUILD_ARGS  ?= --build-arg C_APP=$* --build-arg C_VERSION=$(VERSION)
 
 # Other, centralised settings
 IMAGE_PFIX   = cortezaproject/corteza-
@@ -20,13 +20,21 @@ build: $(addprefix build., $(OUTPUTS))
 
 # Build one of the output, uses <output>/Dockerfile
 build.%: %/Dockerfile
-	$(DOCKER) build $(DOCKER_BUILD_FLAGS) $(DOCKER_BUILD_ARGS) -t $(IMAGE_PFIX)$*:$(VERSION) $*/.
+	$(DOCKER) build \
+		$(DOCKER_BUILD_FLAGS) \
+		$(DOCKER_BUILD_ARGS) \
+		--tag $(IMAGE_PFIX)$*:$(VERSION) \
+		$*/.
 
 # Special make task for server image building
 # We're using same Dockerfile for all server apps,
 # passing different build arg and tagging with a different tag
 build.server-%:
-	$(DOCKER) build $(DOCKER_BUILD_FLAGS) --build-arg C_APP=$* $(DOCKER_BUILD_ARGS) -t $(IMAGE_PFIX)server-$*:$(VERSION) server/.
+	$(DOCKER) build \
+		$(DOCKER_BUIL_FLAGS) \
+		$(DOCKER_BUILD_ARGS) \
+		--tag $(IMAGE_PFIX)server-$*:$(VERSION) \
+		server/.
 
 # Calls push+output for each OUTPUTS
 push: $(addprefix build., $(OUTPUTS))

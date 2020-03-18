@@ -1,12 +1,12 @@
 #!/bin/sh
 
-set -eux
+set -eu
 
 TAR_FLAGS=-xzmok
 
 HOME_TMP="${C_HOME_DIR}/tmp"
 
-LOCAL_PATH="/${C_PKG_NAME}"
+LOCAL_PATH="/build.d/${C_PKG_NAME}"
 REMOTE_URL="${C_REMOTE_BASE_URL}/${C_PKG_NAME}"
 
 mkdir -p "${HOME_TMP}"
@@ -19,8 +19,7 @@ if [ -f "${LOCAL_PATH}" ]; then
   ls -lsa ${LOCAL_PATH}
   tar ${TAR_FLAGS} -f "${LOCAL_PATH}" -C "${HOME_TMP}";
 else
-  curl -s --head --fail "${REMOTE_URL}"
-  curl -s "${REMOTE_URL}" | tar ${TAR_FLAGS} -C "${HOME_TMP}"
+  curl --silent --location  "${REMOTE_URL?}" | tar ${TAR_FLAGS} -C "${HOME_TMP}"
 fi
 
 mv "${HOME_TMP}/${C_FLAVOUR}-server-corredor/"* "${C_HOME_DIR}/"

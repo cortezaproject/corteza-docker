@@ -15,8 +15,11 @@ DOCKER_BUILD_ARGS  ?= --build-arg C_APP=$* --build-arg C_VERSION=$(VERSION)
 IMAGE_PFIX   = cortezaproject/corteza-
 VERSION     ?= $(shell $(GIT) describe --tags --abbrev=0)
 
+BUILD_LIST  ?= $(addprefix build., $(OUTPUTS))
+PUSH_LIST   ?= $(addprefix push., $(OUTPUTS))
+
 # Calls build+output for each OUTPUTS
-build: $(addprefix build., $(OUTPUTS))
+build: $(BUILD_LIST)
 
 # Build one of the output, uses <output>/Dockerfile
 build.%: %/Dockerfile
@@ -37,7 +40,7 @@ build.server-%:
 		server/.
 
 # Calls push+output for each OUTPUTS
-push: $(addprefix build., $(OUTPUTS))
+push: $(PUSHALL)
 
 push.%: %/Dockerfile
 	$(DOCKER) push $(IMAGE_PFIX)$*:$(VERSION)

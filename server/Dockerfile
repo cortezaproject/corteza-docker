@@ -1,11 +1,5 @@
 FROM alpine:3.11
 
-RUN apk add --no-cache \
-      ca-certificates \
-      tzdata \
-      curl \
- && rm -rf /tmp/*
-
 ARG C_OS="linux"
 ARG C_ARCH="amd64"
 ARG C_FLAVOUR="corteza"
@@ -25,10 +19,13 @@ ENV MESSAGING_STORAGE_PATH ${C_HOME_DIR}/data/messaging
 ENV SYSTEM_STORAGE_PATH    ${C_HOME_DIR}/data/system
 ENV CORREDOR_ADDR          corredor:${C_HTTP_PORT}
 ENV PATH                   "${C_HOME_DIR}/bin:${PATH}"
+ENV C_HTTP_PORT            $C_HTTP_PORT
 
-COPY build.sh ${C_PKG_NAME}* /
+COPY *.tar.gz build.d /build.d/
+RUN chmod +x /build.d/??_* \
+ && run-parts --exit-on-error /build.d \
+ && rm -rf /build.d
 
-RUN sh /build.sh && rm -rf /build.sh
 
 USER $C_USER
 

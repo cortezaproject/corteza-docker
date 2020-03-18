@@ -4,9 +4,6 @@
 
 === Docker images
 
-aio::
-All-In-One: combines server, webapp files, corredor automation server.
-
 server::
 Backend server and HTTP REST API server: combines compose, messaging and system backends and their APIs.
 This binaries can be ran as one monolithic service or separately to achieve microservice-like architecture.
@@ -16,6 +13,9 @@ Frontend client applications (one, auth, admin, compose and messaging). Static f
 
 corredor::
 Automation server
+
+aio::
+All-In-One: combines server, webapp files, corredor automation server.
 
 demo::
 Combines server, webapp files, corredor and MySQL database server.

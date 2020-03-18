@@ -1,10 +1,5 @@
 FROM alpine:3.11 AS builder
 
-RUN apk add --no-cache \
-      curl \
- && rm -rf /tmp/*
-
-
 ARG C_APP="dummy"
 ARG C_FLAVOUR="corteza"
 ARG C_VERSION="2020.3.0"
@@ -18,9 +13,10 @@ ARG C_BASE_DIR="/webapp"
 ARG C_HTTP_PORT="80"
 ARG C_PKG_EXT="tar.gz"
 
-COPY build.sh "${C_FLAVOUR}-webapp-*.${C_PKG_EXT}" /
-
-RUN sh /build.sh
+COPY *.tar.gz build.d /build.d/
+RUN chmod +x /build.d/??_* \
+ && run-parts --exit-on-error /build.d \
+ && rm -rf /build.d
 
 FROM nginx:1.17-alpine
 
@@ -31,8 +27,8 @@ ENV C_HTTP_PORT $C_HTTP_PORT
 RUN nginx -t
 
 COPY --from=builder "/webapp" "/webapp"
-COPY entrypoint.sh autoconfig.sh /
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY src/entrypoint.sh src/autoconfig.sh /
+COPY src/nginx.conf /etc/nginx/nginx.conf
 
 RUN chmod +x /*.sh
 

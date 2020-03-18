@@ -1,0 +1,29 @@
+#!/usr/bin/env sh
+
+set -eu
+
+TAR_FLAGS=-xzmok
+
+unpack() {
+  APP=${1}
+  VER=${2}
+  DST=${3}
+  PKG="${C_FLAVOUR}-webapp-${APP}-${C_VERSION}.${C_PKG_EXT}"
+  URL="${C_REMOTE_BASE_URL}/${PKG}"
+  TMP="/build.d/${PKG}"
+
+	mkdir -p "${C_BASE_DIR}/${DST}"
+
+  if [ -f "${TMP}" ]; then
+    tar ${TAR_FLAGS} -f "${TMP}" -C "${C_BASE_DIR}/${DST}"
+  else
+    curl --silent --location "${URL?}" | tar ${TAR_FLAGS} -C "${C_BASE_DIR}/${DST}"
+  fi
+}
+
+
+unpack "one"       "${C_VERSION_ONE}"       ""
+unpack "admin"     "${C_VERSION_ADMIN}"     "admin"
+unpack "auth"      "${C_VERSION_AUTH}"      "auth"
+unpack "compose"   "${C_VERSION_COMPOSE}"   "compose"
+unpack "messaging" "${C_VERSION_MESSAGING}" "messaging"

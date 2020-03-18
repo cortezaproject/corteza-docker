@@ -1,6 +1,5 @@
 FROM node:12.14-alpine AS build
 
-# Cairo&co are needed for PDF rendering
 ARG C_FLAVOUR="corteza"
 ARG C_VERSION="2020.3.0"
 ARG C_REMOTE_BASE_URL="https://releases.cortezaproject.org/files"
@@ -20,21 +19,11 @@ ARG C_EXT_BRANCH="develop"
 # Create app directory
 WORKDIR ${C_HOME_DIR}
 
-ADD *.tar.gz build.d/* /build.d/
-
-RUN chmod +x /build.d/* \
+COPY *.tar.gz build.d /build.d/
+RUN chmod +x /build.d/??_* \
  && run-parts --exit-on-error /build.d \
  && rm -rf /build.d
 
-
-## Copy the app (so that yarn install can be cached)
-#COPY ../../corteza-server-corredor/src /corredor/src/
-#
-## Get ready
-#RUN mkdir -p /corredor/usr /corredor/corteza-ext /corredor/usr \
-# && ls /corredor/scripts \
-# && BRANCH=develop sh /corredor/scripts/extensions.sh \
-# && yarn build
 
 # GRPC's env-vars
 # https://github.com/grpc/grpc/blob/master/doc/environment_variables.md
@@ -46,6 +35,7 @@ ENV CORREDOR_LOG_PRETTY=false
 ENV CORREDOR_LOG_LEVEL=info
 ENV CORREDOR_LOG_ENABLED=true
 
+ENV C_GRPC_PORT=${C_GRPC_PORT}
 ENV CORREDOR_ADDR=0.0.0.0:${C_GRPC_PORT}
 
 ENV CORREDOR_SERVER_CERTIFICATES_ENABLED=false
@@ -54,7 +44,7 @@ ENV CORREDOR_SCRIPTS_AUTO_UPDATE_DEPENDENCIES=false
 ENV CORREDOR_EXT_SERVER_SCRIPTS_WATCH=false
 ENV CORREDOR_EXT_CLIENT_SCRIPTS_WATCH=false
 
-ENV CORREDOR_EXT_SEARCH_PATHS=/corredor/extensions/*:/corredor/usr/*:/corredor/usr
+ENV CORREDOR_EXT_SEARCH_PATHS=${C_EXT_DST}/*:/corredor/usr/*:/corredor/usr
 
 # Client & server scripts location for user scripts & extensions
 VOLUME /corredor/usr
@@ -62,6 +52,10 @@ VOLUME /corredor/usr
 # TLS certificates should be placed here if CORREDOR_SERVER_CERTIFICATES_ENABLED
 VOLUME /corredor/certs
 
-EXPOSE $C_GRPC_PORT
+HEALTHCHECK --interval=3m --timeout=3s --start-period=60s \
+    CMD curl --fail "http://127.0.0.1:${C_HTTP_PORT}" || exit 1
+
+EXPOSE ${C_GRPC_PORT}
+
 ENTRYPOINT ["/usr/local/bin/node"]
 CMD ["dist/server.js"]

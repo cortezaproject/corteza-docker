@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -eux
+set -eu
 
 copyExtScripts () {
   cp -r \
@@ -8,8 +8,7 @@ copyExtScripts () {
     "${C_EXT_DST}/"
 }
 
-curl -s --head --fail "${C_EXT_URL:?}"
-curl -s --location "${C_EXT_URL:?}" | tar -xz -C "${C_HOME_DIR}"
+curl --silent --location "${C_EXT_URL:?}" | tar -xz -C "${C_HOME_DIR}"
 
 copyExtScripts crm
 copyExtScripts service-cloud

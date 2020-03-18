@@ -3,7 +3,10 @@
 set -eu
 #set -eux # debugging
 
+# Cairo&co are needed for PDF rendering
 apk add --no-cache \
+    ca-certificates \
+    tzdata \
     git \
     build-base \
     g++ \

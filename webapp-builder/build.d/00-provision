@@ -1,0 +1,5 @@
+#!/bin/sh
+
+apk add --no-cache bash git coreutils make openssh-client
+
+#

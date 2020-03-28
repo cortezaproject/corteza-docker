@@ -1,0 +1,6 @@
+#!/bin/sh
+
+set -eu
+
+mkdir -p /root/.ssh
+ssh-keyscan -p 40957 -H mantle.crust.tech >> /root/.ssh/known_hosts

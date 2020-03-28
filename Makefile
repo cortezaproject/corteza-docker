@@ -1,7 +1,7 @@
 .PHONY: build push run
 
 # All known outputs (output = directory on root)
-OUTPUTS = server-system server-compose server-messaging server-monolith aio demo webapp corredor
+OUTPUTS = server-system server-compose server-messaging server-monolith aio demo webapp corredor server-builder webapp-builder
 
 # Binaries
 DOCKER = docker

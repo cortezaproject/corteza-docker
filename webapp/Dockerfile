@@ -1,6 +1,5 @@
 FROM alpine:3.11 AS builder
 
-ARG C_APP="dummy"
 ARG C_FLAVOUR="corteza"
 ARG C_VERSION="2020.3.0"
 ARG C_VERSION_ONE="${C_VERSION}"

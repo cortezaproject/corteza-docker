@@ -17,13 +17,13 @@ mkdir -p "${HOME_TMP}"
 # Used mainly for debugging
 if [ -f "${LOCAL_PATH}" ]; then
   ls -lsa ${LOCAL_PATH}
-  tar ${TAR_FLAGS} -f "${LOCAL_PATH}" -C "${HOME_TMP}";
+  tar ${TAR_FLAGS} -f "${LOCAL_PATH}" -C "${HOME_TMP?}";
 else
-  curl --silent --location  "${REMOTE_URL?}" | tar ${TAR_FLAGS} -C "${HOME_TMP}"
+  curl --silent --location  "${REMOTE_URL?}" | tar ${TAR_FLAGS} -C "${HOME_TMP?}"
 fi
 
-mv "${HOME_TMP}/${C_FLAVOUR}-server-corredor/"* "${C_HOME_DIR}/"
-rm -rf "${HOME_TMP}"
+mv "${HOME_TMP}/${C_FLAVOUR}-server-corredor/"* "${C_HOME_DIR?}/"
+rm -rf "${HOME_TMP?}"
 
-chmod -R u+Xr-w,g+Xr-w "${C_HOME_DIR}"
-chown -R "${C_USER}":"${C_GROUP}" "${C_HOME_DIR}"
+chmod -R u+Xr-w,g+Xr-w "${C_HOME_DIR?}"
+chown -R "${C_USER}":"${C_GROUP}" "${C_HOME_DIR?}"

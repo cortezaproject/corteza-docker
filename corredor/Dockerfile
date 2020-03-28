@@ -4,9 +4,9 @@ ARG C_FLAVOUR="corteza"
 ARG C_VERSION="2020.3.0"
 ARG C_REMOTE_BASE_URL="https://releases.cortezaproject.org/files"
 ARG C_PKG_NAME="${C_FLAVOUR}-server-corredor-${C_VERSION}.tar.gz"
-ARG C_HOME_DIR="/${C_FLAVOUR}"
-ARG C_USER="${C_FLAVOUR}"
-ARG C_GROUP="${C_FLAVOUR}"
+ARG C_HOME_DIR="/corredor"
+ARG C_USER="corredor"
+ARG C_GROUP="corredor"
 ARG C_UID="4242"
 ARG C_GID="4242"
 ARG C_GRPC_PORT="80"
@@ -23,7 +23,6 @@ COPY *.tar.gz build.d /build.d/
 RUN chmod +x /build.d/??_* \
  && run-parts --exit-on-error /build.d \
  && rm -rf /build.d
-
 
 # GRPC's env-vars
 # https://github.com/grpc/grpc/blob/master/doc/environment_variables.md
@@ -46,6 +45,10 @@ ENV CORREDOR_EXT_CLIENT_SCRIPTS_WATCH=false
 
 ENV CORREDOR_EXT_SEARCH_PATHS=${C_EXT_DST}/*:/corredor/usr/*:/corredor/usr
 
+ENV YARN_CACHE_FOLDER=/dev/shm/yarn_cache
+
+USER $C_USER
+
 # Client & server scripts location for user scripts & extensions
 VOLUME /corredor/usr
 
@@ -57,5 +60,5 @@ HEALTHCHECK --interval=3m --timeout=3s --start-period=60s \
 
 EXPOSE ${C_GRPC_PORT}
 
-ENTRYPOINT ["/usr/local/bin/node"]
-CMD ["dist/server.js"]
+ENTRYPOINT ["/corredor/node_modules/.bin/ts-node"]
+CMD ["src/server.ts"]

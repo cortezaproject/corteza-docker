@@ -7,3 +7,6 @@ adduser -D -u "${C_UID}" -G "${C_GROUP}" -h "${C_HOME_DIR}" "${C_USER}"
 
 chmod -R u+Xr-w,g+Xr-w "${C_HOME_DIR}"
 chown -R "${C_USER}":"${C_GROUP}" "${C_HOME_DIR}"
+
+# Make sure node still bind ports <1024 even when ran as non-root
+setcap cap_net_bind_service=+ep $(which node)

@@ -7,45 +7,30 @@ TAR_FLAGS=-xzmok
 
 HOME_TMP="${C_HOME_DIR}/tmp"
 
-unpack() {
-  LOCAL_PATH="/build.d/${C_PKG_NAME}"
-  REMOTE_URL="${C_REMOTE_BASE_URL}/${C_PKG_NAME}"
 
-  # See if COPY in Dockerfile picked up any local dist files
-  # and use them instead of downloading the whole package
-  #
-  # Used mainly for debugging
-  if [ -f "${LOCAL_PATH}" ]; then
-    ls -lsa ${LOCAL_PATH}
-    tar ${TAR_FLAGS} -f "${LOCAL_PATH}" -C "${HOME_TMP}";
-  else
-    curl --silent --location  "${REMOTE_URL}" | tar ${TAR_FLAGS} -C "${HOME_TMP}"
-  fi
+mkdir -p "${HOME_TMP}"
 
-  mv "${HOME_TMP}/${C_FLAVOUR}-server-${C_APP}/"* "${C_HOME_DIR}/"
-  rm -rf "${HOME_TMP}"
+LOCAL_PATH="/build.d/${C_PKG_NAME}"
+REMOTE_URL="${C_REMOTE_BASE_URL}/${C_PKG_NAME}"
 
-  # Released packages have "<flavour>-server-<app>" named binaries
-  #
-  # we'll ink them to simple "server" that can be used as entrypoint
-  ln -s "${C_HOME_DIR}/bin/${C_FLAVOUR}-server-${C_APP}" "${C_HOME_DIR}/bin/server"
-}
+# See if COPY in Dockerfile picked up any local dist files
+# and use them instead of downloading the whole package
+#
+# Used mainly for debugging
+if [ -f "${LOCAL_PATH}" ]; then
+  ls -lsa ${LOCAL_PATH}
+  tar ${TAR_FLAGS} -f "${LOCAL_PATH}" -C "${HOME_TMP}";
+else
+  curl --silent --location  "${REMOTE_URL}" | tar ${TAR_FLAGS} -C "${HOME_TMP}"
+fi
 
+mv "${HOME_TMP}/${C_FLAVOUR}-server-${C_APP}/"* "${C_HOME_DIR}/"
+rm -rf "${HOME_TMP}"
 
-mkdir -p \
-  "${COMPOSE_STORAGE_PATH}" \
-  "${MESSAGING_STORAGE_PATH}" \
-  "${SYSTEM_STORAGE_PATH}" \
-  "${HOME_TMP}"
+BIN="${C_HOME_DIR}/bin/${C_FLAVOUR}-server-${C_APP}"
 
-unpack "${C_APP}"
-
-chmod -R u+Xr-w,g+Xr-w \
-  "${COMPOSE_STORAGE_PATH}" \
-  "${MESSAGING_STORAGE_PATH}" \
-  "${SYSTEM_STORAGE_PATH}" \
-
-chown -R "${C_USER}":"${C_GROUP}" \
-  "${COMPOSE_STORAGE_PATH}" \
-  "${MESSAGING_STORAGE_PATH}" \
-  "${SYSTEM_STORAGE_PATH}" \
+# Released packages have "<flavour>-server-<app>" named binaries
+#
+# we'll ink them to simple "server" that can be used as entrypoint
+ln -s "${BIN}" "${C_HOME_DIR}/bin/server"
+setcap cap_net_bind_service=+ep "${BIN}"

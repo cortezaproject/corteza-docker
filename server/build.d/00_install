@@ -5,6 +5,7 @@ set -eu
 apk add --no-cache \
     ca-certificates \
     tzdata \
-    curl \
+    libcap \
+    curl
 
 rm -rf /tmp/*

@@ -14,12 +14,11 @@ ARG C_UID="4242"
 ARG C_GID="4242"
 ARG C_HTTP_PORT="80"
 
-ENV COMPOSE_STORAGE_PATH   ${C_HOME_DIR}/data/compose
-ENV MESSAGING_STORAGE_PATH ${C_HOME_DIR}/data/messaging
-ENV SYSTEM_STORAGE_PATH    ${C_HOME_DIR}/data/system
+ENV STORAGE_PATH           /data
 ENV CORREDOR_ADDR          corredor:${C_HTTP_PORT}
 ENV PATH                   "${C_HOME_DIR}/bin:${PATH}"
 ENV C_HTTP_PORT            $C_HTTP_PORT
+ENV HTTP_ADDR              0.0.0.0:${C_HTTP_PORT}
 
 COPY *.tar.gz build.d /build.d/
 RUN chmod +x /build.d/??_* \
@@ -29,7 +28,7 @@ RUN chmod +x /build.d/??_* \
 
 USER $C_USER
 
-VOLUME ${C_HOME_DIR}/data
+VOLUME /data
 
 WORKDIR ${C_HOME_DIR}
 

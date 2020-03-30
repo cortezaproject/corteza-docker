@@ -19,7 +19,9 @@ if [ -f "${LOCAL_PATH}" ]; then
   ls -lsa ${LOCAL_PATH}
   tar ${TAR_FLAGS} -f "${LOCAL_PATH}" -C "${HOME_TMP?}";
 else
-  curl --silent --location  "${REMOTE_URL?}" | tar ${TAR_FLAGS} -C "${HOME_TMP?}"
+  echo "Downloading Corredor"
+  echo ${REMOTE_URL?}
+  curl --location  "${REMOTE_URL?}" | tar ${TAR_FLAGS} -C "${HOME_TMP?}"
 fi
 
 mv "${HOME_TMP}/${C_FLAVOUR}-server-corredor/"* "${C_HOME_DIR?}/"

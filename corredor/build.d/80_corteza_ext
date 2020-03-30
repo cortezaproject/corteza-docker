@@ -3,12 +3,13 @@
 set -eu
 
 copyExtScripts () {
+  mkdir -p "${C_EXT_DST}/${1}"
   cp -r \
     "${C_HOME_DIR:?}/${C_EXT_DIR}-${C_EXT_BRANCH}/${1}" \
     "${C_EXT_DST}/"
 }
 
-curl --silent --location "${C_EXT_URL:?}" | tar -xz -C "${C_HOME_DIR}"
+curl --location "${C_EXT_URL:?}" | tar -xz -C "${C_HOME_DIR}"
 
 copyExtScripts crm
 copyExtScripts service-cloud

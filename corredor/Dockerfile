@@ -55,6 +55,7 @@ VOLUME /corredor/usr
 # TLS certificates should be placed here if CORREDOR_SERVER_CERTIFICATES_ENABLED
 VOLUME /corredor/certs
 
+# @todo replace with something like https://github.com/grpc-ecosystem/grpc-health-probe
 HEALTHCHECK --interval=3m --timeout=3s --start-period=60s \
     CMD curl --fail "http://127.0.0.1:${C_HTTP_PORT}" || exit 1
 

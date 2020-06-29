@@ -19,3 +19,32 @@ All-In-One: combines server, webapp files, corredor automation server.
 
 demo::
 Combines server, webapp files, corredor and MySQL database server.
+
+== Building images
+[source]
+----
+make build.<output>
+----
+
+Note: VERSION will default to last tag on THIS repository!
+You can set it to any value with make argument (VERSION=foo)
+
+This VERSION argument is then used for docker image tagging AND
+for downloading release package (this is done inside each output's Dockerfile)
+
+Docker tag can be overriden by TAG argument
+
+
+=== Examples
+
+. Build monolith server from `unstable` release (`develop` branch) and tag docker image it with `unstable` tag.
+[source,sh]
+----
+make build.server-monolith VERSION=unstable
+----
+
+. Build webapp from `2019.12` release (`2019.12` git tag) and tag docker image it with `latest` tag.
+[source,sh]
+----
+make build.webpp VERSION=2019.12 TAG=latest
+----

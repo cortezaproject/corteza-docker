@@ -3,7 +3,12 @@ FROM node:12.14-alpine AS build
 ARG C_FLAVOUR="corteza"
 ARG C_VERSION="2020.3.0"
 ARG C_REMOTE_BASE_URL="https://releases.cortezaproject.org/files"
-ARG C_PKG_NAME="${C_FLAVOUR}-server-corredor-${C_VERSION}.tar.gz"
+
+# Temporary workaround -- Corredor's Corteza/Crust flavours are the same
+# so it's safe to do this
+#ARG C_PKG_NAME="${C_FLAVOUR}-server-corredor-${C_VERSION}.tar.gz"
+ARG C_PKG_NAME="corteza-server-corredor-${C_VERSION}.tar.gz"
+
 ARG C_HOME_DIR="/corredor"
 ARG C_USER="corredor"
 ARG C_GROUP="corredor"

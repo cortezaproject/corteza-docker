@@ -24,7 +24,9 @@ else
   curl --location  "${REMOTE_URL?}" | tar ${TAR_FLAGS} -C "${HOME_TMP?}"
 fi
 
-mv "${HOME_TMP}/${C_FLAVOUR}-server-corredor/"* "${C_HOME_DIR?}/"
+#mv "${HOME_TMP}/${C_FLAVOUR}-server-corredor/"* "${C_HOME_DIR?}/"
+mv "${HOME_TMP}/corteza-server-corredor/"* "${C_HOME_DIR?}/"
+
 rm -rf "${HOME_TMP?}"
 
 chmod -R u+Xr-w,g+Xr-w "${C_HOME_DIR?}"

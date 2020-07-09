@@ -22,7 +22,12 @@ unpack() {
 }
 
 
-unpack "one"       "${C_VERSION_ONE}"       ""
+if [ "corteza" = "${C_FLAVOUR}" ]; then
+  unpack "one"       "${C_VERSION_ONE}"       ""
+else
+  unpack "unify"     "${C_VERSION_ONE}"       ""
+fi
+
 unpack "admin"     "${C_VERSION_ADMIN}"     "admin"
 unpack "auth"      "${C_VERSION_AUTH}"      "auth"
 unpack "compose"   "${C_VERSION_COMPOSE}"   "compose"

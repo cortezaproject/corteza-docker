@@ -48,5 +48,5 @@ HEALTHCHECK --interval=3m --timeout=3s --start-period=60s \
 
 EXPOSE ${C_HTTP_PORT}
 
-ENTRYPOINT [ "/corteza/bin/server" ]
+ENTRYPOINT [ "bin/server" ]
 CMD ["serve-api"]

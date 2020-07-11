@@ -43,8 +43,8 @@ Docker tag can be overriden by TAG argument
 make build.server-monolith VERSION=unstable
 ----
 
-. Build webapp from `2019.12` release (`2019.12` git tag) and tag docker image it with `latest` tag.
+. Build webapp from `2020.6` release (`2020.6` git tag) and tag docker image it with `latest` tag.
 [source,sh]
 ----
-make build.webpp VERSION=2019.12 TAG=latest
+make build.webpp VERSION=2020.6 TAG=latest
 ----

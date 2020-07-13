@@ -18,6 +18,7 @@ REMOTE_URL="${C_REMOTE_BASE_URL}/${C_PKG_NAME}"
 #
 # Used mainly for debugging
 if [ -f "${LOCAL_PATH}" ]; then
+  echo "Local packages found:"
   ls -lsa ${LOCAL_PATH}
   tar ${TAR_FLAGS} -f "${LOCAL_PATH}" -C "${HOME_TMP}";
 else

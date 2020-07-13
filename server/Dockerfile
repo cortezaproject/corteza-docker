@@ -30,10 +30,11 @@ ENV C_HTTP_PORT            $C_HTTP_PORT
 ENV HTTP_ADDR              0.0.0.0:${C_HTTP_PORT}
 
 COPY *.tar.gz build.d /build.d/
-RUN chmod +x /build.d/??_* \
+COPY src/healthcheck.sh /bin/healthcheck
+RUN chmod +x /bin/healthcheck \
+ && chmod +x /build.d/??_* \
  && run-parts --exit-on-error /build.d \
  && rm -rf /build.d
-
 
 USER $C_USER
 
@@ -41,10 +42,7 @@ VOLUME /data
 
 WORKDIR ${C_HOME_DIR}
 
-# @todo use port value from variables
-
-HEALTHCHECK --interval=3m --timeout=3s --start-period=60s \
-    CMD curl --fail "http://127.0.0.1:80/${C_HTTP_PORT}" || exit 1
+HEALTHCHECK --interval=30s --start-period=1m --timeout=30s --retries=3 CMD sh /bin/healthcheck
 
 EXPOSE ${C_HTTP_PORT}
 

@@ -25,7 +25,9 @@ ARG C_EXT_BRANCH="develop"
 WORKDIR ${C_HOME_DIR}
 
 COPY *.tar.gz build.d /build.d/
-RUN chmod +x /build.d/??_* \
+COPY src/healthcheck.sh /bin/healthcheck
+RUN chmod +x /bin/healthcheck \
+ && chmod +x /build.d/??_* \
  && run-parts --exit-on-error /build.d \
  && rm -rf /build.d
 
@@ -41,9 +43,10 @@ ENV CORREDOR_LOG_ENABLED=true
 
 ENV C_GRPC_PORT=${C_GRPC_PORT}
 ENV CORREDOR_ADDR=0.0.0.0:${C_GRPC_PORT}
+ENV HEALTHCHECK_ADDR=localhost:${C_GRPC_PORT}
 
+# Production mode
 ENV CORREDOR_SERVER_CERTIFICATES_ENABLED=false
-
 ENV CORREDOR_SCRIPTS_AUTO_UPDATE_DEPENDENCIES=false
 ENV CORREDOR_EXT_SERVER_SCRIPTS_WATCH=false
 ENV CORREDOR_EXT_CLIENT_SCRIPTS_WATCH=false
@@ -60,9 +63,7 @@ VOLUME /corredor/usr
 # TLS certificates should be placed here if CORREDOR_SERVER_CERTIFICATES_ENABLED
 VOLUME /corredor/certs
 
-# @todo replace with something like https://github.com/grpc-ecosystem/grpc-health-probe
-HEALTHCHECK --interval=3m --timeout=3s --start-period=60s \
-    CMD curl --fail "http://127.0.0.1:${C_HTTP_PORT}" || exit 1
+HEALTHCHECK --interval=30s --start-period=1m --timeout=30s --retries=3 CMD sh /bin/healthcheck
 
 EXPOSE ${C_GRPC_PORT}
 

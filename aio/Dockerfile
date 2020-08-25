@@ -18,7 +18,7 @@ ENV PATH                   "${C_HOME_DIR}/bin:${PATH}"
 ENV C_HTTP_PORT            $C_HTTP_PORT
 ENV HTTP_ADDR              0.0.0.0:${C_HTTP_PORT}
 ENV HTTP_API_BASE_URL      "/api"
-ENV HTTP_WEBAPP_BASE_DIR   "webapp"
+ENV HTTP_WEBAPP_BASE_DIR   "/webapp"
 ENV HTTP_WEBAPP_ENABLED    true
 
 COPY --from=cortezaproject/corteza-server-corredor:unstable "/corredor" "/corredor"

@@ -3,5 +3,5 @@
 set -eu
 
 mkdir -p ${STORAGE_PATH}
-chmod -R u+Xr-w,g+Xr-w ${STORAGE_PATH}
+chmod -R u+Xrw,g+Xrw ${STORAGE_PATH}
 chown -R "${C_USER}":"${C_GROUP}" ${STORAGE_PATH}

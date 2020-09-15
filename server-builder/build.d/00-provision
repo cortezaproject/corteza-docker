@@ -1,3 +1,3 @@
 #!/bin/sh
 
-apk add --no-cache git make bash openssh-client
+apk add --no-cache git make bash openssh-client alpine-sdk

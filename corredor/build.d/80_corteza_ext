@@ -12,7 +12,7 @@ copyExtScripts () {
 curl --location "${C_EXT_URL:?}" | tar -xz -C "${C_HOME_DIR}"
 
 copyExtScripts crm
-copyExtScripts service-cloud
+copyExtScripts service-solution
 
 rm -rf "${C_HOME_DIR:?}/${C_EXT_DIR}"
 

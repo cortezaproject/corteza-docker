@@ -32,6 +32,6 @@ BIN="${C_HOME_DIR}/bin/${C_FLAVOUR}-server-${C_APP}"
 
 # Released packages have "<flavour>-server-<app>" named binaries
 #
-# we'll ink them to simple "server" that can be used as entrypoint
+# we'll link them to simple "server" that can be used as entrypoint
 ln -s "${BIN}" "${C_HOME_DIR}/bin/server"
 setcap cap_net_bind_service=+ep "${BIN}"

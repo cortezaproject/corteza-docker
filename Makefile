@@ -66,6 +66,7 @@ push.%: %/Dockerfile
 push.server-%:
 	$(DOCKER) push $(IMAGE_PFIX)server-$*:$(TAG)
 
+
 # Shorthand to build & push unstable versions of monolith, corredor & webapp
 release.unstable:
 	$(MAKE) build.server-monolith push.server-monolith VERSION=unstable
@@ -75,12 +76,13 @@ release.unstable:
 tag.%:
 	docker tag $(IMAGE_PFIX)$*:$(TAG) $(IMAGE_PFIX)$*:$(RETAG)
 
-# Shorthand to build & push 2020.6.x
-release.20%:
+build.20%:
 	$(MAKE) -j3 build.server-monolith build.server-corredor build.webapp build.aio VERSION=20$*
 	$(MAKE) tag.server-monolith tag.server-corredor tag.webapp tag.aio TAG=20$* RETAG=20$(word 1,$(subst ., ,$*)).$(word 2,$(subst ., ,$*))
 	$(MAKE) tag.server-monolith tag.server-corredor tag.webapp tag.aio TAG=20$* RETAG=latest
 
+# Shorthand to build & push 2020.6.x
+release.20%: build.20$*
 	$(MAKE) -j3 push.server-monolith push.server-corredor push.webapp push.aio VERSION=20$*
 	$(MAKE) -j3 push.server-monolith push.server-corredor push.webapp push.aio VERSION=20$(word 1,$(subst ., ,$*)).$(word 2,$(subst ., ,$*))
 	$(MAKE) -j3 push.server-monolith push.server-corredor push.webapp push.aio VERSION=latest

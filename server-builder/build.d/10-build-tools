@@ -1,11 +1,5 @@
 #!/bin/sh
 
-WFI=/usr/local/bin/wait-for-it.sh
-echo "installing ${WFI}"
-wget -q -O ${WFI} https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh
-chmod a+x ${WFI}
-
-
 echo "installing overalls"
 go get -u github.com/go-playground/overalls
 
@@ -17,3 +11,6 @@ go get -u github.com/golang/mock/mockgen
 
 echo "installing goware/statik"
 go get -u github.com/goware/statik
+
+echo "installing gotest"
+go get -u github.com/rakyll/gotest

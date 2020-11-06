@@ -1,6 +1,7 @@
-FROM golang:1.14-alpine
+FROM golang:1.15-alpine
 
-ENV CGO_ENABLED=0
+ENV GOFLAGS="-mod=vendor"
+ENV CGO_ENABLED=1
 
 COPY build.d /build.d
 

@@ -15,36 +15,53 @@ corredor::
 Automation server
 
 aio::
+(work in progress)
 All-In-One: combines server, webapp files, corredor automation server.
 
 demo::
+(work in progress)
 Combines server, webapp files, corredor and MySQL database server.
 
 == Building images
+
+Build and push all images (from root)
 [source]
 ----
-make build.<output>
+make VERSION=2020.12.0
 ----
 
-Note: VERSION will default to last tag on THIS repository!
-You can set it to any value with make argument (VERSION=foo)
+This will build server, webapp and corredor.
 
-This VERSION argument is then used for docker image tagging AND
-for downloading release package (this is done inside each output's Dockerfile)
+Each image can be built independently by changing into one of the directories and running `make`
 
-Docker tag can be overriden by TAG argument
+== Release packages (binaries and bundles)
+
+Most important thing to keep in mind is that package MUST released on https://releases.cortezaproject.org/files/.
+This happens in the final step of the CI pipeline on each repository.
+
+As an alternative you can place testing release package inside build.d/ where it's detected by image build scripts.
+
+== Versions
+
+Valid version formats:
 
 
-=== Examples
+`202<Y>-<release month>`::
+    Will suffix with .0 patch. See next format.
 
-. Build monolith server from `unstable` release (`develop` branch) and tag docker image it with `unstable` tag.
-[source,sh]
+`202<Y>-<release month>-<patch>`::
+    Builds image with  `<year>-<release month>-<patch>` and `<year>-<release month>` tag.
+
+`<arbitrary-string>`::
+    Builds image with `<arbitrary-string>`
+
+If `LATEST=yes` is set and non-arbitrary-string version is used, images are also tagged with `latest`
+
+
+.Examples:
+[source]
 ----
-make build.server-monolith VERSION=unstable
-----
-
-. Build webapp from `2020.6` release (`2020.6` git tag) and tag docker image it with `latest` tag.
-[source,sh]
-----
-make build.webpp VERSION=2020.6 TAG=latest
+make VERSION=2020.12
+make VERSION=unstable
+make VERSION=2020.12.2 LATEST=yes
 ----

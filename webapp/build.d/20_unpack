@@ -15,8 +15,12 @@ unpack() {
 	mkdir -p "${C_BASE_DIR}/${DST}"
 
   if [ -f "${TMP}" ]; then
+    echo "Unpacking ${APP} from provided package"
+    echo "${TMP}"
     tar ${TAR_FLAGS} -f "${TMP}" -C "${C_BASE_DIR}/${DST}"
   else
+    echo "Downloading ${APP} from"
+    echo "${URL}"
     curl --silent --location "${URL?}" | tar ${TAR_FLAGS} -C "${C_BASE_DIR}/${DST}"
   fi
 }

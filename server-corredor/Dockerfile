@@ -1,7 +1,7 @@
 FROM node:12.14-alpine AS build
 
 ARG C_FLAVOUR="corteza"
-ARG C_VERSION="2020.3.0"
+ARG C_VERSION="2020.9.0"
 ARG C_REMOTE_BASE_URL="https://releases.cortezaproject.org/files"
 
 # Temporary workaround -- Corredor's Corteza/Crust flavours are the same

@@ -2,6 +2,4 @@
 
 include ../Makefile.inc
 
-IMAGE ?= cortezaproject/corteza-server-builder
-TAG    = 1.15
-
+IMAGE ?= $(IMAGE_PFIX)-server-corredor

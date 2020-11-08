@@ -5,3 +5,4 @@
 /TODO
 *.tar.*
 *.yaml
+*/build.d/*.tar.gz

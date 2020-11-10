@@ -2,4 +2,5 @@
 
 include ../Makefile.inc
 
-IMAGE ?= $(IMAGE_PFIX)-webapp
+IMAGE ?= $(IMAGE_PFIX)webapp
+

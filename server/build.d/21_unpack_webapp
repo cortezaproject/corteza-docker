@@ -1,0 +1,38 @@
+#!/usr/bin/env sh
+
+set -eu
+
+TAR_FLAGS=-xzmok
+
+unpack() {
+  APP=${1}
+  VER=${2}
+  DST=${3}
+  PKG="${C_FLAVOUR}-webapp-${APP}-${C_VERSION}.tar.gz"
+  URL="${C_REMOTE_BASE_URL}/${PKG}"
+  TMP="/build.d/${PKG}"
+
+	mkdir -p "${C_BASE_DIR}/${DST}"
+
+  if [ -f "${TMP}" ]; then
+    echo "Unpacking ${APP} from provided package"
+    echo "${TMP}"
+    tar ${TAR_FLAGS} -f "${TMP}" -C "${C_BASE_DIR}/${DST}"
+  else
+    echo "Downloading ${APP} from"
+    echo "${URL}"
+    curl --silent --location "${URL?}" | tar ${TAR_FLAGS} -C "${C_BASE_DIR}/${DST}"
+  fi
+}
+
+
+if [ "corteza" = "${C_FLAVOUR}" ]; then
+  unpack "one"       "${C_VERSION_ONE}"       ""
+else
+  unpack "unify"     "${C_VERSION_ONE}"       ""
+fi
+
+unpack "admin"     "${C_VERSION_ADMIN}"     "admin"
+unpack "auth"      "${C_VERSION_AUTH}"      "auth"
+unpack "compose"   "${C_VERSION_COMPOSE}"   "compose"
+unpack "messaging" "${C_VERSION_MESSAGING}" "messaging"

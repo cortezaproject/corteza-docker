@@ -2,4 +2,4 @@
 
 include ../Makefile.inc
 
-IMAGE ?= $(IMAGE_PFIX)-server-corredor
+IMAGE ?= $(IMAGE_PFIX)server-corredor

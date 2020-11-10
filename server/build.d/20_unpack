@@ -22,13 +22,15 @@ if [ -f "${LOCAL_PATH}" ]; then
   ls -lsa ${LOCAL_PATH}
   tar ${TAR_FLAGS} -f "${LOCAL_PATH}" -C "${HOME_TMP}";
 else
-  curl --silent --location  "${REMOTE_URL}" | tar ${TAR_FLAGS} -C "${HOME_TMP}"
+    echo "Downloading server from"
+    echo "${REMOTE_URL}"
+  curl --silent --location "${REMOTE_URL?}" | tar ${TAR_FLAGS} -C "${HOME_TMP}"
 fi
 
-mv "${HOME_TMP}/${C_FLAVOUR}-server-${C_APP}/"* "${C_HOME_DIR}/"
+mv "${HOME_TMP}/${C_FLAVOUR}-server/"* "${C_HOME_DIR}/"
 rm -rf "${HOME_TMP}"
 
-BIN="${C_HOME_DIR}/bin/${C_FLAVOUR}-server-${C_APP}"
+BIN="${C_HOME_DIR}/bin/${C_FLAVOUR}-server"
 
 # Released packages have "<flavour>-server-<app>" named binaries
 #

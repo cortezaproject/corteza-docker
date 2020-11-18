@@ -8,7 +8,7 @@ unpack() {
   APP=${1}
   VER=${2}
   DST=${3}
-  PKG="${C_FLAVOUR}-webapp-${APP}-${C_VERSION}.${C_PKG_EXT}"
+  PKG="${C_FLAVOUR}-webapp-${APP}-${VER}.${C_PKG_EXT}"
   URL="${C_REMOTE_BASE_URL}/${PKG}"
   TMP="/build.d/${PKG}"
 
@@ -27,12 +27,12 @@ unpack() {
 
 
 if [ "corteza" = "${C_FLAVOUR}" ]; then
-  unpack "one"       "${C_VERSION_ONE}"       ""
+  unpack "one"       "${C_VERSION_WEBAPP_ONE}"       ""
 else
-  unpack "unify"     "${C_VERSION_ONE}"       ""
+  unpack "unify"     "${C_VERSION_WEBAPP_ONE}"       ""
 fi
 
-unpack "admin"     "${C_VERSION_ADMIN}"     "admin"
-unpack "auth"      "${C_VERSION_AUTH}"      "auth"
-unpack "compose"   "${C_VERSION_COMPOSE}"   "compose"
-unpack "messaging" "${C_VERSION_MESSAGING}" "messaging"
+unpack "admin"     "${C_VERSION_WEBAPP_ADMIN}"     "admin"
+unpack "auth"      "${C_VERSION_WEBAPP_AUTH}"      "auth"
+unpack "compose"   "${C_VERSION_WEBAPP_COMPOSE}"   "compose"
+unpack "messaging" "${C_VERSION_WEBAPP_MESSAGING}" "messaging"

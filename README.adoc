@@ -65,3 +65,16 @@ make VERSION=2020.12
 make VERSION=unstable
 make VERSION=2020.12.2 LATEST=yes
 ----
+
+
+=== Version mix & match
+
+Webapp and server images build supports version cascading (see `Makefile.inc` for details).
+
+.Compiling specific feature build for server with base unstable version for webapp with exception of compose:
+[source]
+----
+make VERSION=2020.12.x-feature-xyz VERSION_WEBAPP=unstable VERSION_WEBAPP_COMPOSE=2020.12.x-feature-xyz
+----
+
+This will build image with `2020.12.x-feature-xyz` tag with all but compose webapps on unstable version

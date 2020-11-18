@@ -10,8 +10,9 @@ HOME_TMP="${C_HOME_DIR}/tmp"
 
 mkdir -p "${HOME_TMP}"
 
-LOCAL_PATH="/build.d/${C_PKG_NAME}"
-REMOTE_URL="${C_REMOTE_BASE_URL}/${C_PKG_NAME}"
+PKG_NAME="${C_FLAVOUR}-server-${C_VERSION}-${C_OS}-${C_ARCH}.tar.gz"
+LOCAL_PATH="/build.d/${PKG_NAME}"
+REMOTE_URL="${C_REMOTE_BASE_URL}/${PKG_NAME}"
 
 # See if COPY in Dockerfile picked up any local dist files
 # and use them instead of downloading the whole package

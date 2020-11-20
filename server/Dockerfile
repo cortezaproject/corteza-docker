@@ -34,6 +34,8 @@ ENV PATH                   "${C_HOME_DIR}/bin:${PATH}"
 ENV C_HTTP_PORT            $C_HTTP_PORT
 ENV HTTP_ADDR              0.0.0.0:${C_HTTP_PORT}
 
+
+
 COPY *.tar.gz build.d /build.d/
 COPY src/healthcheck.sh /bin/healthcheck
 RUN chmod +x /bin/healthcheck \

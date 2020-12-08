@@ -8,6 +8,7 @@ set -eu
 # Where to put the configs
 BASEDIR=${BASEDIR:-"/webapp"}
 
+FEDERATION_ENABLED=${FEDERATION_ENABLED:-""}
 
 
 # See if VIRTUAL_HOST exists
@@ -20,22 +21,23 @@ API_SCHEME=${API_SCHEME:-""}
 # Prefix to use with VIRTUAL_HOST when building API domain
 API_PREFIX=${API_PREFIX:-"api."}
 
-# Loggic differs a bit when dealing with monolith vs. microservice setup
 API_BASEURL=${API_BASEURL:-"${API_PREFIX}${VIRTUAL_HOST}"}
 API_BASEURL_SYSTEM=${API_BASEURL_SYSTEM:-"${API_SCHEME}//${API_BASEURL}/system"}
 API_BASEURL_MESSAGING=${API_BASEURL_MESSAGING:-"${API_SCHEME}//${API_BASEURL}/messaging"}
 API_BASEURL_COMPOSE=${API_BASEURL_COMPOSE:-"${API_SCHEME}//${API_BASEURL}/compose"}
 
+CONFIG=""
+CONFIG="${CONFIG}window.SystemAPI = '${API_BASEURL_SYSTEM}'\n"
+CONFIG="${CONFIG}window.MessagingAPI = '${API_BASEURL_MESSAGING}'\n"
+CONFIG="${CONFIG}window.ComposeAPI = '${API_BASEURL_COMPOSE}'\n"
 
-tee \
+if [ ! -z "${FEDERATION_ENABLED}" ]; then
+  CONFIG="${CONFIG}window.FederationAPI = '${API_BASEURL_FEDERATION}'\n"
+fi
+
+echo -e "${CONFIG}" | tee \
   ${BASEDIR}/messaging/config.js \
   ${BASEDIR}/auth/config.js \
   ${BASEDIR}/admin/config.js \
   ${BASEDIR}/compose/config.js \
-  ${BASEDIR}/config.js \
-  > /dev/null \
-<< EOF
-window.SystemAPI = '${API_BASEURL_SYSTEM}'
-window.MessagingAPI = '${API_BASEURL_MESSAGING}'
-window.ComposeAPI = '${API_BASEURL_COMPOSE}'
-EOF
+> ${BASEDIR}/config.js

@@ -8,8 +8,6 @@ set -eu
 # Where to put the configs
 BASEDIR=${BASEDIR:-"/webapp"}
 
-
-
 # See if VIRTUAL_HOST exists
 # if it does, it should hold the hostname of where these webapps are served
 VIRTUAL_HOST=${VIRTUAL_HOST:-"local.cortezaproject.org"}
@@ -30,13 +28,14 @@ if [ ! -z "${MONOLITH_API}" ]; then
   API_BASEURL_SYSTEM=${API_BASEURL_SYSTEM:-"${API_SCHEME}//${API_BASEURL}/system"}
   API_BASEURL_MESSAGING=${API_BASEURL_MESSAGING:-"${API_SCHEME}//${API_BASEURL}/messaging"}
   API_BASEURL_COMPOSE=${API_BASEURL_COMPOSE:-"${API_SCHEME}//${API_BASEURL}/compose"}
+  API_BASEURL_FEDERATION=${API_BASEURL_FEDERATION:-"${API_SCHEME}//${API_BASEURL}/federation"}
 else
   API_BASEURL=${API_BASEURL:-"${VIRTUAL_HOST}"}
   API_BASEURL_SYSTEM=${API_BASEURL_SYSTEM:-"${API_SCHEME}//system.${API_PREFIX}${API_BASEURL}"}
   API_BASEURL_MESSAGING=${API_BASEURL_MESSAGING:-"${API_SCHEME}//messaging.${API_PREFIX}${API_BASEURL}"}
   API_BASEURL_COMPOSE=${API_BASEURL_COMPOSE:-"${API_SCHEME}//compose.${API_PREFIX}${API_BASEURL}"}
+  API_BASEURL_FEDERATION=${API_BASEURL_FEDERATION:-"${API_SCHEME}//federation.${API_PREFIX}${API_BASEURL}"}
 fi
-
 
 tee \
   ${BASEDIR}/messaging/config.js \
@@ -49,4 +48,5 @@ tee \
 window.SystemAPI = '${API_BASEURL_SYSTEM}'
 window.MessagingAPI = '${API_BASEURL_MESSAGING}'
 window.ComposeAPI = '${API_BASEURL_COMPOSE}'
+window.FederationAPI = '${API_BASEURL_FEDERATION}'
 EOF

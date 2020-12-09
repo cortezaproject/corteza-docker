@@ -1,6 +1,9 @@
 # Binaries
 DOCKER = docker
 
+# This makes sure that regex match for vVALID, vPATCH and vRC is working
+SHELL = /bin/bash
+
 # Other, centralised settings
 FLAVOUR ?= corteza
 
@@ -9,8 +12,15 @@ $(error VERSION is not set. Make sure you specify it, eg: make build VERSION=202
 endif
 
 vFULL  := $(VERSION)
-vVALID := $(shell [[ $(vFULL) =~ 202[0-9].(3|6|9|12)(.[0-9]+)?$$ ]] && echo "yes")
-vPATCH := $(shell [[ $(vFULL) =~ 202[0-9].(3|6|9|12).([0-9]+)$$ ]] && echo "yes")
+
+# Is this a valid version (fits in a "yyyy.<3, 6 9 or 12>.<patch>" format)?
+vVALID := $(shell [[ $(vFULL) =~ ^202[0-9].(3|6|9|12)(.[0-9]+)?$$ ]] && echo "yes")
+
+# Is this a patch?
+vPATCH := $(shell [[ $(vFULL) =~ ^202[0-9].(3|6|9|12).([0-9]+)$$ ]] && echo "yes")
+
+# Is this a release candidate?
+vRC    := $(shell [[ $(vFULL) =~ \-rc.([0-9]+)$$ ]] && echo "yes")
 
 ifneq ($(vVALID),)
 ifeq ($(vPATCH),)
@@ -51,19 +61,29 @@ all: | build push
 # Generic docker build
 build:
 	$(DOCKER) build $(DOCKER_BUILD_FLAGS) --tag $(IMAGE):$(vFULL) .
-ifneq ($(vVALID),)
+ifeq ($(vVALID),yes)
 	docker tag $(IMAGE):$(vFULL) $(IMAGE):$(vSHORT)
-ifneq ($(LATEST),)
+ifeq ($(LATEST),yes)
 	docker tag $(IMAGE):$(vFULL) $(IMAGE):latest
 endif
 endif
 
 # Generic docker push
 push:
+#	@ echo "VERSION = <" $(VERSION) ">"
+#	@ echo "vFULL   = <" $(vFULL) ">"
+#	@ echo "vVALID  = <" $(vVALID) ">"
+#	@ echo "vPATCH  = <" $(vPATCH) ">"
+#	@ echo "vRC     = <" $(vRC) ">"
+ifeq ($(vRC),yes)
+	@ echo "Refusing to automatically push release-candidate to docker hub, you can do it manually:"
+	@ echo docker push $(IMAGE):$(vFULL)
+else
 	$(DOCKER) push $(IMAGE):$(vFULL)
-ifneq ($(vVALID),)
+ifeq ($(vVALID),yes)
 	docker push $(IMAGE):$(vSHORT)
-ifneq ($(LATEST),)
+ifeq ($(LATEST),yes)
 	docker push $(IMAGE):latest
+endif
 endif
 endif

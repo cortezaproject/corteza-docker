@@ -10,7 +10,20 @@ HOME_TMP="${C_HOME_DIR}/tmp"
 
 mkdir -p "${HOME_TMP}"
 
-PKG_NAME="${C_FLAVOUR}-server-${C_VERSION}-${C_OS}-${C_ARCH}.tar.gz"
+if [[ "${C_VERSION:0:6}" == "2020.9" ]]; then
+  # Prior 2020.12 we've built and release 4 server apps:
+  #   corteza-server-compose,
+  #   corteza-server-system,
+  #   corteza-server-messaging,
+  #   corteza-server-monolith
+  # This was changed and we're building and releading only 1 app: corteza-server
+  NAME="${C_FLAVOUR}-server-monolith"
+else
+  NAME="${C_FLAVOUR}-server"
+fi
+
+
+PKG_NAME="${NAME}-${C_VERSION}-${C_OS}-${C_ARCH}.tar.gz"
 LOCAL_PATH="/build.d/${PKG_NAME}"
 REMOTE_URL="${C_REMOTE_BASE_URL}/${PKG_NAME}"
 
@@ -28,12 +41,12 @@ else
   curl --silent --location "${REMOTE_URL?}" | tar ${TAR_FLAGS} -C "${HOME_TMP}"
 fi
 
-mv "${HOME_TMP}/${C_FLAVOUR}-server/"* "${C_HOME_DIR}/"
+mv "${HOME_TMP}/${NAME}/"* "${C_HOME_DIR}/"
 rm -rf "${HOME_TMP}"
 
-BIN="${C_HOME_DIR}/bin/${C_FLAVOUR}-server"
+BIN="${C_HOME_DIR}/bin/${NAME}"
 
-# Released packages have "<flavour>-server-<app>" named binaries
+# Released packages have "<flavour>-server" named binaries
 #
 # we'll link them to simple "server" that can be used as entrypoint
 ln -s "${BIN}" "${C_HOME_DIR}/bin/server"

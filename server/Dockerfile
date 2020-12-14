@@ -22,19 +22,21 @@ ARG C_HTTP_PORT="80"
 # Making a couple of assumptions about environment
 
 # Data will most likely be mounted on /data
-ENV STORAGE_PATH           /data
+ENV STORAGE_PATH           "/data"
 
 # Corredor server will run under "corredor" docker container service
-ENV CORREDOR_ADDR          corredor:80
+ENV CORREDOR_ADDR          "corredor:80"
 
 # Where can server binaries can be found
 ENV PATH                   "${C_HOME_DIR}/bin:${PATH}"
 
 # Where Corteza API is running?
 ENV C_HTTP_PORT            $C_HTTP_PORT
-ENV HTTP_ADDR              0.0.0.0:${C_HTTP_PORT}
+ENV HTTP_ADDR              "0.0.0.0:${C_HTTP_PORT}"
 
-
+# Make sure server looks in the right direction when serving client apps
+# This still needs to be explicitly enabled with HTTP_WEBAPP_ENABLED
+ENV HTTP_WEBAPP_BASE_DIR   "$C_BASE_DIR"
 
 COPY *.tar.gz build.d /build.d/
 COPY src/healthcheck.sh /bin/healthcheck

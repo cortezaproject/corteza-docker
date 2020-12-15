@@ -53,6 +53,10 @@ ENV CORREDOR_EXT_CLIENT_SCRIPTS_WATCH=false
 
 ENV CORREDOR_EXT_SEARCH_PATHS=${C_EXT_DST}/*:/corredor/usr/*:/corredor/usr
 
+# This assumes that container will be part of the docker-compose setup were corteza is
+# ran under "server" service and can be directly accessed via internal docker network
+ENV CORREDOR_EXEC_CSERVERS_API_BASEURL_TEMPLATE "http://server/api/{service}"
+
 ENV YARN_CACHE_FOLDER=/dev/shm/yarn_cache
 
 USER $C_USER

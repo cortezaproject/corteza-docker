@@ -1,7 +1,7 @@
 FROM node:12.14-alpine AS build
 
 ARG C_FLAVOUR="corteza"
-ARG C_VERSION="2020.9.0"
+ARG C_VERSION="2020.12.0"
 ARG C_REMOTE_BASE_URL="https://releases.cortezaproject.org/files"
 
 # Temporary workaround -- Corredor's Corteza/Crust flavours are the same
@@ -16,7 +16,7 @@ ARG C_UID="4242"
 ARG C_GID="4242"
 ARG C_GRPC_PORT="80"
 ARG C_EXT_DIR="corteza-ext"
-ARG C_EXT_BRANCH="develop"
+ARG C_EXT_BRANCH="2020.12.x"
 ARG C_EXT_URL="https://github.com/cortezaproject/${C_EXT_DIR}/archive/${C_EXT_BRANCH}.tar.gz"
 ARG C_EXT_DST="/extensions"
 ARG C_EXT_BRANCH="develop"

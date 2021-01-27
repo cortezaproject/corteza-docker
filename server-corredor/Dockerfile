@@ -19,7 +19,6 @@ ARG C_EXT_DIR="corteza-ext"
 ARG C_EXT_BRANCH="2020.12.x"
 ARG C_EXT_URL="https://github.com/cortezaproject/${C_EXT_DIR}/archive/${C_EXT_BRANCH}.tar.gz"
 ARG C_EXT_DST="/extensions"
-ARG C_EXT_BRANCH="develop"
 
 # Create app directory
 WORKDIR ${C_HOME_DIR}

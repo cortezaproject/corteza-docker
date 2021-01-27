@@ -32,7 +32,8 @@ COPY src/nginx.conf /etc/nginx/nginx.conf
 RUN chmod +x /*.sh
 
 # A simple check, should not waste time on waiting, timeouts...
-HEALTHCHECK --interval=5m --timeout=1s --start-period=3s \
+
+HEALTHCHECK --interval=30s --start-period=10s --timeout=30s  \
     CMD wget --quiet --tries=1 --spider "http://127.0.0.1:${C_HTTP_PORT}/config.js" || exit 1
 
 EXPOSE ${C_HTTP_PORT}

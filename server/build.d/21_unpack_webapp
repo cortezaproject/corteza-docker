@@ -33,6 +33,4 @@ else
 fi
 
 unpack "admin"     "${C_VERSION_WEBAPP_ADMIN}"     "admin"
-unpack "auth"      "${C_VERSION_WEBAPP_AUTH}"      "auth"
 unpack "compose"   "${C_VERSION_WEBAPP_COMPOSE}"   "compose"
-unpack "messaging" "${C_VERSION_WEBAPP_MESSAGING}" "messaging"

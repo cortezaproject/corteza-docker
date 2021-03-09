@@ -1,4 +1,4 @@
-.PHONY: all server aio demo webapp server-corredor server-builder webapp-builder
+.PHONY: all server webapp server-corredor server-builder webapp-builder
 
 # All known outputs (output = directory on root)
 BUILDERS         = server-builder webapp-builder

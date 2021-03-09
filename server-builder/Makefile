@@ -1,9 +1,9 @@
 .PHONY: build release latest unstable
 
-include ../Makefile.inc
 
+DOCKER = docker
 IMAGE ?= cortezaproject/corteza-server-builder
-TAG    = 1.15
+TAG    = 1.16
 
 build:
 	$(DOCKER) build $(DOCKER_BUILD_OPTS) --tag $(IMAGE):$(TAG) .

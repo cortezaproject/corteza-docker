@@ -23,13 +23,11 @@ API_PREFIX=${API_PREFIX:-"api."}
 
 API_BASEURL=${API_BASEURL:-"${API_PREFIX}${VIRTUAL_HOST}"}
 API_BASEURL_SYSTEM=${API_BASEURL_SYSTEM:-"${API_SCHEME}//${API_BASEURL}/system"}
-API_BASEURL_MESSAGING=${API_BASEURL_MESSAGING:-"${API_SCHEME}//${API_BASEURL}/messaging"}
 API_BASEURL_COMPOSE=${API_BASEURL_COMPOSE:-"${API_SCHEME}//${API_BASEURL}/compose"}
 API_BASEURL_FEDERATION=${API_BASEURL_FEDERATION:-"${API_SCHEME}//${API_BASEURL}/federation"}
 
 CONFIG=""
 CONFIG="${CONFIG}window.SystemAPI = '${API_BASEURL_SYSTEM}'\n"
-CONFIG="${CONFIG}window.MessagingAPI = '${API_BASEURL_MESSAGING}'\n"
 CONFIG="${CONFIG}window.ComposeAPI = '${API_BASEURL_COMPOSE}'\n"
 
 if [ ! -z "${FEDERATION_ENABLED}" ]; then
@@ -37,8 +35,6 @@ if [ ! -z "${FEDERATION_ENABLED}" ]; then
 fi
 
 echo -e "${CONFIG}" | tee \
-  ${BASEDIR}/messaging/config.js \
-  ${BASEDIR}/auth/config.js \
   ${BASEDIR}/admin/config.js \
   ${BASEDIR}/compose/config.js \
 > ${BASEDIR}/config.js

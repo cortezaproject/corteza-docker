@@ -25,14 +25,6 @@ unpack() {
   fi
 }
 
-
-if [ "corteza" = "${C_FLAVOUR}" ]; then
-  unpack "one"       "${C_VERSION_WEBAPP_ONE}"       ""
-else
-  unpack "unify"     "${C_VERSION_WEBAPP_ONE}"       ""
-fi
-
+unpack "one"       "${C_VERSION_WEBAPP_ONE}"       ""
 unpack "admin"     "${C_VERSION_WEBAPP_ADMIN}"     "admin"
-unpack "auth"      "${C_VERSION_WEBAPP_AUTH}"      "auth"
 unpack "compose"   "${C_VERSION_WEBAPP_COMPOSE}"   "compose"
-unpack "messaging" "${C_VERSION_WEBAPP_MESSAGING}" "messaging"

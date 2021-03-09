@@ -9,8 +9,5 @@ go get -u github.com/golang/mock/gomock
 echo "installing mockgen"
 go get -u github.com/golang/mock/mockgen
 
-echo "installing goware/statik"
-go get -u github.com/goware/statik
-
 echo "installing gotest"
 go get -u github.com/rakyll/gotest

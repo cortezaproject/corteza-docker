@@ -16,7 +16,7 @@ if [[ "${C_VERSION:0:6}" == "2020.9" ]]; then
   #   corteza-server-system,
   #   corteza-server-messaging,
   #   corteza-server-monolith
-  # This was changed and we're building and releading only 1 app: corteza-server
+  # This was changed and we're building only 1 app: corteza-server
   NAME="${C_FLAVOUR}-server-monolith"
 else
   NAME="${C_FLAVOUR}-server"

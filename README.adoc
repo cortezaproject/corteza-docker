@@ -5,22 +5,13 @@
 === Docker images
 
 server::
-Backend server and HTTP REST API server: combines compose, messaging and system backends and their APIs.
-This binaries can be ran as one monolithic service or separately to achieve microservice-like architecture.
+Backend server and HTTP REST API server: combines compose and system backends and their APIs.
 
 webapp::
-Frontend client applications (one, auth, admin, compose and messaging). Static files served by NginX web server.
+Frontend client applications (one, admin, compose). Static files served by NginX web server.
 
 corredor::
 Automation server
-
-aio::
-(work in progress)
-All-In-One: combines server, webapp files, corredor automation server.
-
-demo::
-(work in progress)
-Combines server, webapp files, corredor and MySQL database server.
 
 == Building images
 

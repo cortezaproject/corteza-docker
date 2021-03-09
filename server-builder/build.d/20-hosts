@@ -1,6 +1,8 @@
-#!/bin/sh
+#!/bin/bash
 
 set -eu
+
+echo "nameserver 8.8.8.8 8.8.4.4" > /etc/resolv.conf
 
 mkdir -p /root/.ssh
 ssh-keyscan -p 40957 -H mantle.crust.tech >> /root/.ssh/known_hosts

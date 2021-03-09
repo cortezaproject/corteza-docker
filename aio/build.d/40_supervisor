@@ -1,7 +1,0 @@
-#!/bin/sh
-
-set -eu
-
-mkdir -p /opt/supervisor
-chmod -R u+Xrw,g+Xrw /opt/supervisor
-chown -R "${C_USER}":"${C_GROUP}" /opt/supervisor

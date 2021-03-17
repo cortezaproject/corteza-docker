@@ -34,3 +34,4 @@ fi
 
 unpack "admin"     "${C_VERSION_WEBAPP_ADMIN}"     "admin"
 unpack "compose"   "${C_VERSION_WEBAPP_COMPOSE}"   "compose"
+unpack "workflow"  "${C_VERSION_WEBAPP_WORKFLOW}"  "workflow"

@@ -10,19 +10,7 @@ HOME_TMP="${C_HOME_DIR}/tmp"
 
 mkdir -p "${HOME_TMP}"
 
-if [[ "${C_VERSION:0:6}" == "2020.9" ]]; then
-  # Prior 2020.12 we've built and release 4 server apps:
-  #   corteza-server-compose,
-  #   corteza-server-system,
-  #   corteza-server-messaging,
-  #   corteza-server-monolith
-  # This was changed and we're building only 1 app: corteza-server
-  NAME="${C_FLAVOUR}-server-monolith"
-else
-  NAME="${C_FLAVOUR}-server"
-fi
-
-
+NAME="${C_FLAVOUR}-server"
 PKG_NAME="${NAME}-${C_VERSION}-${C_OS}-${C_ARCH}.tar.gz"
 LOCAL_PATH="/build.d/${PKG_NAME}"
 REMOTE_URL="${C_REMOTE_BASE_URL}/${PKG_NAME}"
